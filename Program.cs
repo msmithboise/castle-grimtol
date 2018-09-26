@@ -8,6 +8,9 @@ namespace CastleGrimtol
         public static void Main(string[] args)
         {
 
+
+            var game = new Game(new Room("starting room", "where you start"), new Player());
+            game.StartGame();
         }
     }
 }
