@@ -49,7 +49,14 @@ namespace CastleGrimtol.Project
             var lockRoom = new Room("lockroom", "A rusty lock.");
             var finalRoom = new Room("finalroom", "The end is in sight.");
 
+            var roomKey = new Item("roomkey", "a shiny key");
+            var sword = new Item("sword", "a beautiful sword.");
 
+            keyRoom.Exits.Add("east", swordRoom);
+            swordRoom.Exits.Add("east", lockRoom);
+            swordRoom.Exits.Add("west", keyRoom);
+            lockRoom.Exits.Add("east", finalRoom);
+            lockRoom.Exits.Add("west", swordRoom);
 
 
 
