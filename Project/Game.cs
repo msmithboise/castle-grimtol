@@ -7,8 +7,12 @@ namespace CastleGrimtol.Project
         public Room CurrentRoom { get; set; }
         public Player CurrentPlayer { get; set; }
 
+
+
+
         public void GetUserInput()
         {
+
 
         }
 
@@ -44,6 +48,7 @@ namespace CastleGrimtol.Project
 
         public void Setup()
         {
+            var startingRoom = new Room("startroom", "This is where it all begins");
             var keyRoom = new Room("keyroom", "You see a glisten on the floor.");
             var swordRoom = new Room("swordroom", "A sword catches your eye");
             var lockRoom = new Room("lockroom", "A rusty lock.");
@@ -52,11 +57,28 @@ namespace CastleGrimtol.Project
             var roomKey = new Item("roomkey", "a shiny key");
             var sword = new Item("sword", "a beautiful sword.");
 
-            keyRoom.Exits.Add("east", swordRoom);
-            swordRoom.Exits.Add("east", lockRoom);
-            swordRoom.Exits.Add("west", keyRoom);
-            lockRoom.Exits.Add("east", finalRoom);
-            lockRoom.Exits.Add("west", swordRoom);
+            startingRoom.Exits.Add("east", keyRoom);
+            keyRoom.Exits.Add("west", startingRoom);
+            keyRoom.Exits.Add("east", lockRoom);
+            lockRoom.Exits.Add("west", keyRoom);
+            lockRoom.Exits.Add("east", swordRoom);
+            swordRoom.Exits.Add("west", lockRoom);
+            swordRoom.Exits.Add("east", finalRoom);
+            finalRoom.Exits.Add("west", swordRoom);
+
+            keyRoom.Items.Add(roomKey);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
