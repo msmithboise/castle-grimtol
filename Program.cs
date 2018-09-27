@@ -9,7 +9,7 @@ namespace CastleGrimtol
         {
 
             var game = new Game();
-            while (game.playingGame)
+            while (game.PlayingGame)
             {
 
                 game.StartGame();

@@ -8,7 +8,9 @@ namespace CastleGrimtol.Project
         public Room CurrentRoom { get; set; }
         public Player CurrentPlayer { get; set; }
 
-        public bool playingGame { get; set; } = true;
+        public bool PlayingGame { get; set; } = true;
+
+        public bool alive { get; set; } = true;
         public Game(Room currentroom, Player currentplayer)
         {
 
@@ -80,7 +82,35 @@ namespace CastleGrimtol.Project
 
         public void Help()
         {
-            System.Console.WriteLine("Just git gud...");
+
+            System.Console.WriteLine("HELP MENU");
+            System.Console.WriteLine("Selct one of the following commands");
+
+            System.Console.WriteLine("Go + (desired direction)");
+            System.Console.WriteLine("Look - ");
+            System.Console.WriteLine("Take");
+            System.Console.WriteLine("Use");
+            System.Console.WriteLine("Inventory");
+
+
+
+
+
+
+            var playerInput = Console.ReadLine();
+            if (Int32.TryParse(playerInput, out int choice))
+            {
+                switch (choice)
+                {
+
+                    case "Back to game":
+
+
+
+
+
+                }
+            }
         }
 
         public void Inventory()
@@ -100,7 +130,7 @@ namespace CastleGrimtol.Project
             string response = Console.ReadLine();
             if (response.ToUpper() != "N")
             {
-                playingGame = false;
+                PlayingGame = false;
             }
             else
             {
