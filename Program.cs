@@ -9,7 +9,7 @@ namespace CastleGrimtol
         {
 
 
-            var game = new Game(new Room("starting room", "where you start"), new Player());
+            var game = new Game();
             game.StartGame();
         }
     }

@@ -16,5 +16,15 @@ namespace CastleGrimtol.Project
             Name = name;
             Description = description;
         }
+
+        public Room ChangeRooms(string direction)
+        {
+            if (Exits.ContainsKey(direction))
+            {
+                return Exits[direction];
+            }
+            return this;
+        }
+
     }
 }

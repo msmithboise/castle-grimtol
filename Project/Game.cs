@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CastleGrimtol.Project
@@ -12,13 +13,22 @@ namespace CastleGrimtol.Project
 
         public void GetUserInput()
         {
+            var userInput = Console.ReadLine();
 
-
+            switch (userInput.ToLower())
+            {
+                case "go north":
+                    Go("north");
+                    break;
+            }
         }
+
+
+
 
         public void Go(string direction)
         {
-
+            CurrentRoom.ChangeRooms();
         }
 
         public void Help()
@@ -67,7 +77,9 @@ namespace CastleGrimtol.Project
             finalRoom.Exits.Add("west", swordRoom);
 
             keyRoom.Items.Add(roomKey);
+            swordRoom.Items.Add(sword);
 
+            CurrentRoom = startingRoom;
 
 
 
@@ -100,10 +112,9 @@ namespace CastleGrimtol.Project
         }
 
 
-        public Game(Room currentroom, Player currentplayer)
+        public Game()
         {
-            CurrentRoom = currentroom;
-            CurrentPlayer = currentplayer;
+            Setup();
 
         }
 
