@@ -20,6 +20,41 @@ namespace CastleGrimtol.Project
                 case "go north":
                     Go("north");
                     break;
+
+                case "go south":
+                    Go("south");
+                    break;
+
+                case "east":
+                    Go("east");
+                    break;
+
+                case "west":
+                    Go("west");
+                    break;
+
+                case "help":
+                    Help();
+                    break;
+
+                case "look":
+                    Look();
+                    break;
+
+                case "take":
+                    // you don't pass data types in arguments, only parameters.  TakeItem requires an arguement.
+                    TakeItem("key");
+                    break;
+
+
+
+
+
+
+
+
+
+
             }
         }
 
@@ -28,12 +63,12 @@ namespace CastleGrimtol.Project
 
         public void Go(string direction)
         {
-            CurrentRoom.ChangeRooms();
+            CurrentRoom = CurrentRoom.ChangeRooms(direction);
         }
 
         public void Help()
         {
-
+            System.Console.WriteLine("Just git gud...");
         }
 
         public void Inventory()
@@ -81,19 +116,6 @@ namespace CastleGrimtol.Project
 
             CurrentRoom = startingRoom;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
         public void StartGame()
@@ -103,6 +125,7 @@ namespace CastleGrimtol.Project
 
         public void TakeItem(string itemName)
         {
+            CurrentRoom.RemoveItem(itemName);
 
         }
 

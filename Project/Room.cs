@@ -21,10 +21,26 @@ namespace CastleGrimtol.Project
         {
             if (Exits.ContainsKey(direction))
             {
+                // returning a variable on an object (dictionaries are objects)requires brackets.
                 return Exits[direction];
             }
             return this;
         }
+
+        public Item RemoveItem(string itemName)
+        {
+            // get index then call RemoveAt
+            Item foundItem = Items.Find(itm => itm.Name == itemName);
+            if (foundItem != null)
+            {
+                //remove from items
+                Items.Remove(foundItem);
+                return foundItem;
+            }
+            return null;
+
+        }
+
 
     }
 }
