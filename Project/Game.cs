@@ -8,6 +8,16 @@ namespace CastleGrimtol.Project
         public Room CurrentRoom { get; set; }
         public Player CurrentPlayer { get; set; }
 
+        public bool playingGame { get; set; } = true;
+        public Game(Room currentroom, Player currentplayer)
+        {
+
+            CurrentRoom = currentroom;
+            CurrentPlayer = currentplayer;
+
+
+        }
+
 
 
 
@@ -46,7 +56,9 @@ namespace CastleGrimtol.Project
                     TakeItem("key");
                     break;
 
-
+                case "quit":
+                    Quit();
+                    break;
 
 
 
@@ -84,6 +96,16 @@ namespace CastleGrimtol.Project
         public void Quit()
         {
 
+            System.Console.WriteLine("Are you sure you want to quit?  (Y/N)");
+            string response = Console.ReadLine();
+            if (response.ToUpper() != "N")
+            {
+                playingGame = false;
+            }
+            else
+            {
+                System.Console.WriteLine("Hang in there!  You got this!");
+            }
         }
 
         public void Reset()
@@ -120,8 +142,11 @@ namespace CastleGrimtol.Project
 
         public void StartGame()
         {
+
+
             System.Console.WriteLine("You find yourself in a room you've never seen before.  What do you do next?");
             GetUserInput();
+
         }
 
         public void TakeItem(string itemName)
