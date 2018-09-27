@@ -78,7 +78,7 @@ namespace CastleGrimtol.Project
 
         public void Look()
         {
-
+            System.Console.WriteLine($"{CurrentRoom.Description}");
         }
 
         public void Quit()
@@ -121,6 +121,7 @@ namespace CastleGrimtol.Project
         public void StartGame()
         {
             System.Console.WriteLine("You find yourself in a room you've never seen before.  What do you do next?");
+            GetUserInput();
         }
 
         public void TakeItem(string itemName)
