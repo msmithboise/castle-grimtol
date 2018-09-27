@@ -125,7 +125,10 @@ namespace CastleGrimtol.Project
 
         public void TakeItem(string itemName)
         {
-            CurrentRoom.RemoveItem(itemName);
+            Item foundItem = CurrentRoom.RemoveItem(itemName);
+            //add found item to player inventory
+
+            CurrentPlayer.Inventory.Add(foundItem);
 
         }
 
