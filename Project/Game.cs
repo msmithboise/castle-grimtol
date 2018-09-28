@@ -83,34 +83,17 @@ namespace CastleGrimtol.Project
         public void Help()
         {
 
+            Console.Clear();
             System.Console.WriteLine("HELP MENU");
-            System.Console.WriteLine("Selct one of the following commands");
+            System.Console.WriteLine("----------");
 
-            System.Console.WriteLine("Go + (desired direction)");
-            System.Console.WriteLine("Look - ");
+            System.Console.WriteLine("Go");
+            System.Console.WriteLine("Look");
             System.Console.WriteLine("Take");
             System.Console.WriteLine("Use");
             System.Console.WriteLine("Inventory");
+            System.Console.WriteLine("----------");
 
-
-
-
-
-
-            var playerInput = Console.ReadLine();
-            if (Int32.TryParse(playerInput, out int choice))
-            {
-                switch (choice)
-                {
-
-                    case "Back to game":
-
-
-
-
-
-                }
-            }
         }
 
         public void Inventory()
