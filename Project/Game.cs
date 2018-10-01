@@ -10,6 +10,8 @@ namespace CastleGrimtol.Project
 
         public bool PlayingGame { get; set; } = true;
 
+        public bool WinGame { get; set; } = false;
+
         public bool alive { get; set; } = true;
         public Game(Room currentroom, Player currentplayer)
         {
@@ -26,6 +28,7 @@ namespace CastleGrimtol.Project
         public void GetUserInput()
         {
             var userInput = Console.ReadLine();
+
 
             switch (userInput.ToLower())
             {
@@ -45,13 +48,15 @@ namespace CastleGrimtol.Project
                     Go("west");
                     break;
 
-                case "start":
-                    Go("start");
-                    break;
+
 
                 case "blue":
-                    System.Console.WriteLine("You walk over to the lonely girl in the corner, she looks so sad as if she has been made fun of by the rest of the kids at your party.  You hold out your hand.  She's amazed that you would chose hers first, over your crush, your best friend, even your mother.  She hands you a book with mysterious writing within it.  You don't know what it is for, but you know that somehow, someway it could help you escape this strange dream.  ");
+
+
+
+                    System.Console.WriteLine("You walk over to the lonely girl in the corner, she looks so sad as if she has been made fun of by the rest of the kids at your party.  You hold out your hand.  She's amazed that you would chose hers first, over your crush, your best friend, even your mother.  She hands you a book with mysterious writing within it.  You don't know what it is for, but you know that somehow, someway it could help you escape this strange dream.  She holds it out to you waiting for you to TAKE it.  ");
                     break;
+
 
                 case "white":
                     System.Console.WriteLine("Although the watergun was a fun toy to play with as a kid, I don't see how this will be helpful in the future.");
@@ -90,6 +95,9 @@ namespace CastleGrimtol.Project
                     Quit();
                     break;
 
+                case "repeat":
+                    Repeat();
+                    break;
 
 
 
@@ -125,10 +133,22 @@ namespace CastleGrimtol.Project
             System.Console.WriteLine("'Use' - To use an item found.");
             System.Console.WriteLine("'Inventory' - To see a list of aquired items");
             System.Console.WriteLine("'Quit' - to quit the game.");
+            System.Console.WriteLine("'Repeat' - to hear room description again.");
+            System.Console.WriteLine("'Back' - exit help menu");
+
+            var userInput = Console.ReadLine();
+
+            if (userInput == "back")
+            {
+                Console.Clear();
+                System.Console.WriteLine($"{CurrentRoom.Description}");
+            }
 
 
 
-            System.Console.WriteLine("----------");
+
+
+
 
         }
 
@@ -139,7 +159,8 @@ namespace CastleGrimtol.Project
 
         public void Look()
         {
-            System.Console.WriteLine($"{CurrentRoom.Description}");
+            Console.Clear();
+            System.Console.WriteLine($"{CurrentRoom.Explore}");
         }
 
         public void Quit()
@@ -150,10 +171,24 @@ namespace CastleGrimtol.Project
             if (response.ToUpper() != "N")
             {
                 PlayingGame = false;
+                Console.Clear();
             }
             else
             {
                 System.Console.WriteLine("Hang in there!  You got this!");
+            }
+        }
+
+        public void Repeat()
+        {
+            System.Console.WriteLine($"{CurrentRoom.Description}");
+        }
+
+        public void isAlive()
+        {
+            if (alive == false)
+            {
+                System.Console.WriteLine("Game Over");
             }
         }
 
@@ -164,28 +199,38 @@ namespace CastleGrimtol.Project
 
         public void Setup()
         {
-            var startingRoom = new Room("startroom", "You awake to find yourself laying on the floor of a mysterious white room.  Although it's a place you've never been to before you immediately recognize it as a room you've dreamt about since you were young.  Not only do you recognize the room, but you remember that someway your 'dream' version of yourself was able to escape.  Although you only vaguely remember the details.  You close your eyes to see a blurry siloutte of yourself squinting at a compass you found on the ground.  It reads 'N S e W'.  Small letters have always been hard for you to see.");
+            var startingRoom = new Room("startroom", "You awake to find yourself laying on the floor of a mysterious white room.  Although it's a place you've never been to before you immediately recognize it as a room you've dreamt about since you were young.  Not only do you recognize the room, but you remember that someway your 'dream' version of yourself was able to escape.  Although you only vaguely remember the details.", "You close your eyes to see a blurry siloutte of yourself squinting at a compass you found on the ground.  It reads 'N S e W'.  Small letters have always been hard for you to see.");
 
 
-            var partyRoom = new Room("keyroom", "Stepping in to the next room you now see yourself as a child at your own birthday party.  You see your mother holding a GREEN gift in her hand.  Your friends surround you with presents.  Your best friend out of them all holds a RED gift in his hand, begging you to open his first.  However your childhood crush suddenly yells 'No, open mine!'  You are tempted by the WHITE gift held in thier hand.  You try to think back to what gift was chosen when you remember, a young shy girl sitting in the corner, seperated from everyone held a BLUE present within her hands.  You say to yourself 'I remember this.  I this is the year I was given a GAME, a pair of ROLLER skates, a WATERGUN and a BOOK.  <i>You remember your favorite gift was the book, but you can't remember's who gift it was...</i>");
+            var partyRoom = new Room("partyroom", "Stepping in to the next room you now see yourself as a child at your own birthday party.  You see your friends surrounding you with presents.  You watch yourself unwrap them and you laugh as you try to blow out the trick candles.  You laugh to yourself.. I remember those!  You notice that you are once again surrounded by 4 doors.  Odd, concidering your childhood house only had two...", "There's a clock with both the hour hand and minute hand stuck on 12.. but if I thought my party was at 4?.");
 
 
 
-            var swordRoom = new Room("swordroom", "A sword catches your eye");
-            var lockRoom = new Room("lockroom", "A rusty lock.");
-            var finalRoom = new Room("finalroom", "The end is in sight.");
+            var swordRoom = new Room("swordroom", "A sword catches your eye", "a sword");
+            var lockRoom = new Room("lockroom", "A rusty lock.", "I need to unlock this.");
+
+            var deathRoom = new Room("deathroom", "You have been caught in an infinite loop of time.  You feel yourself rapidly aging, in a blink of an eye you have become a million years old, and so have your organs...", "You made the wrong call.");
+
+            if (CurrentRoom == deathRoom)
+            {
+                alive = false;
+
+            }
+
 
             var book = new Item("book", "A book written in a mysterious language.");
             var sword = new Item("sword", "a beautiful sword.");
 
-            startingRoom.Exits.Add("start", partyRoom);
+
+            deathRoom.Exits.Add("east", startingRoom);
+            startingRoom.Exits.Add("west", deathRoom);
             partyRoom.Exits.Add("west", startingRoom);
-            partyRoom.Exits.Add("blue", lockRoom);
+            partyRoom.Exits.Add("north", lockRoom);
             lockRoom.Exits.Add("west", partyRoom);
             lockRoom.Exits.Add("east", swordRoom);
             swordRoom.Exits.Add("west", lockRoom);
-            swordRoom.Exits.Add("east", finalRoom);
-            finalRoom.Exits.Add("west", swordRoom);
+
+
 
             partyRoom.Items.Add(book);
             swordRoom.Items.Add(sword);
@@ -196,12 +241,15 @@ namespace CastleGrimtol.Project
 
         public void StartGame()
         {
+            System.Console.WriteLine($"{CurrentRoom.Description}");
             Setup();
-            System.Console.WriteLine("Welcome to Château Dejavu!  Enter 'start' to begin!.");
+
             while (PlayingGame)
             {
 
+
                 GetUserInput();
+
 
             }
 
