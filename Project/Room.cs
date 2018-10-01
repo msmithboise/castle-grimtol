@@ -25,8 +25,11 @@ namespace CastleGrimtol.Project
             if (Exits.ContainsKey(direction))
             {
                 // returning a variable on an object (dictionaries are objects)requires brackets.
+                System.Console.WriteLine($"{Description}");
+
                 return Exits[direction];
             }
+            System.Console.WriteLine("Clearly the dust that covers the ground beneath your feet has made it's way to your eyes, because that is defintely not a door...");
             return this;
         }
 
