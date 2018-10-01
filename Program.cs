@@ -9,11 +9,11 @@ namespace CastleGrimtol
         {
 
             var game = new Game();
-            while (game.PlayingGame)
-            {
 
-                game.StartGame();
-            }
+
+
+            game.StartGame();
+
         }
     }
 }

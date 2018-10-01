@@ -29,21 +29,13 @@ namespace CastleGrimtol.Project
 
             switch (userInput.ToLower())
             {
-                case "go north":
-                    Go("north");
-                    break;
-
-                case "go south":
-                    Go("south");
-                    break;
-
-                case "east":
+                case "go east":
                     Go("east");
                     break;
 
-                case "west":
-                    Go("west");
-                    break;
+
+
+
 
                 case "help":
                     Help();
@@ -155,10 +147,14 @@ namespace CastleGrimtol.Project
 
         public void StartGame()
         {
+            Setup();
+            while (PlayingGame)
+            {
 
+                System.Console.WriteLine($"{CurrentRoom.Description}");
+                GetUserInput();
 
-            System.Console.WriteLine("You find yourself in a room you've never seen before.  What do you do next?");
-            GetUserInput();
+            }
 
         }
 

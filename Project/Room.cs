@@ -44,6 +44,14 @@ namespace CastleGrimtol.Project
 
         }
 
+        public void EnterRoom()
+        {
+            foreach (var exit in Exits)
+            {
+                System.Console.WriteLine(exit.Key);
+            }
+        }
+
 
     }
 }
