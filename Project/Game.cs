@@ -13,13 +13,13 @@ namespace CastleGrimtol.Project
         public bool WinGame { get; set; } = false;
 
         public bool alive { get; set; } = true;
-        public Game(Room currentroom, Player currentplayer)
+        public bool hasKey { get; set; }
+
+        public Game()
         {
-
-            CurrentRoom = currentroom;
-            CurrentPlayer = currentplayer;
-
-
+            System.Console.Write("Name? ");
+            CurrentPlayer = new Player(Console.ReadLine());
+            StartGame();
         }
 
 
@@ -28,56 +28,27 @@ namespace CastleGrimtol.Project
         public void GetUserInput()
         {
             var userInput = Console.ReadLine();
-
-
-            switch (userInput.ToLower())
+            string[] inputArr = userInput.Split(' ');
+            string command = inputArr[0];
+            string option = "";
+            if (inputArr.Length > 1)
             {
-                case "go north":
-                    Go("north");
+                option = inputArr[1];
+            }
+
+
+            switch (command.ToLower())
+            {
+                case "go":
+                    if (option.Length > 0)
+                    {
+                        Go(option);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("please provide a direction");
+                    }
                     break;
-
-                case "go south":
-                    Go("south");
-                    break;
-
-                case "go east":
-                    Go("east");
-                    break;
-
-                case "go west":
-                    Go("west");
-                    break;
-
-
-
-                case "blue":
-
-
-
-                    System.Console.WriteLine("You walk over to the lonely girl in the corner, she looks so sad as if she has been made fun of by the rest of the kids at your party.  You hold out your hand.  She's amazed that you would chose hers first, over your crush, your best friend, even your mother.  She hands you a book with mysterious writing within it.  You don't know what it is for, but you know that somehow, someway it could help you escape this strange dream.  She holds it out to you waiting for you to TAKE it.  ");
-                    break;
-
-
-                case "white":
-                    System.Console.WriteLine("Although the watergun was a fun toy to play with as a kid, I don't see how this will be helpful in the future.");
-                    break;
-
-                case "red":
-                    System.Console.WriteLine("Yeah I remember those rollerskates.  They were so much fun!  Though I don't think they can help me escape this strange dream.");
-                    break;
-
-                case "green":
-                    System.Console.WriteLine("That was a fun game.  But I don't think it will help me escape this place.");
-                    break;
-
-
-
-
-
-
-
-
-
                 case "help":
                     Help();
                     break;
@@ -88,7 +59,26 @@ namespace CastleGrimtol.Project
 
                 case "take":
                     // you don't pass data types in arguments, only parameters.  TakeItem requires an arguement.
-                    TakeItem("key");
+                    if (option.Length > 0)
+                    {
+                        TakeItem(option);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("please provide an item name to take");
+                    }
+                    break;
+
+                case "use":
+                    // you don't pass data types in arguments, only parameters.  TakeItem requires an arguement.
+                    if (option.Length > 0)
+                    {
+                        UseItem(option);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("please provide an item name to use");
+                    }
                     break;
 
                 case "quit":
@@ -99,7 +89,13 @@ namespace CastleGrimtol.Project
                     Repeat();
                     break;
 
+                case "inventory":
+                    Inventory();
+                    break;
 
+                default:
+                    System.Console.WriteLine("Unrecognized command");
+                    break;
 
 
 
@@ -113,7 +109,13 @@ namespace CastleGrimtol.Project
 
         public void Go(string direction)
         {
+            if (CurrentRoom.Name == "lockroom" && direction == "east" && !hasKey)
+            {
+                System.Console.WriteLine("THAT DOOR IS LOCKED YOU NEED THE KEY!");
+                return;
+            }
             CurrentRoom = CurrentRoom.ChangeRooms(direction);
+            System.Console.WriteLine($"{CurrentRoom.Description}");
         }
 
         public void Help()
@@ -154,7 +156,15 @@ namespace CastleGrimtol.Project
 
         public void Inventory()
         {
-
+            System.Console.WriteLine("YOUR INVENTORY: ");
+            if (CurrentPlayer.Inventory.Count == 0)
+            {
+                System.Console.WriteLine("Nothing here");
+            }
+            foreach (var item in CurrentPlayer.Inventory)
+            {
+                System.Console.WriteLine($"{item.Name} - {item.Description}");
+            }
         }
 
         public void Look()
@@ -204,19 +214,9 @@ namespace CastleGrimtol.Project
 
             var partyRoom = new Room("partyroom", "Stepping in to the next room you now see yourself as a child at your own birthday party.  You see your friends surrounding you with presents.  You watch yourself unwrap them and you laugh as you try to blow out the trick candles.  You laugh to yourself.. I remember those!  You notice that you are once again surrounded by 4 doors.  Odd, concidering your childhood house only had two...", "There's a clock with both the hour hand and minute hand stuck on 12.. but if I thought my party was at 4?.");
 
-
-
             var swordRoom = new Room("swordroom", "A sword catches your eye", "a sword");
             var lockRoom = new Room("lockroom", "A rusty lock.", "I need to unlock this.");
-
             var deathRoom = new Room("deathroom", "You have been caught in an infinite loop of time.  You feel yourself rapidly aging, in a blink of an eye you have become a million years old, and so have your organs...", "You made the wrong call.");
-
-            if (CurrentRoom == deathRoom)
-            {
-                alive = false;
-
-            }
-
 
             var book = new Item("book", "A book written in a mysterious language.");
             var sword = new Item("sword", "a beautiful sword.");
@@ -224,6 +224,7 @@ namespace CastleGrimtol.Project
 
             deathRoom.Exits.Add("east", startingRoom);
             startingRoom.Exits.Add("west", deathRoom);
+            startingRoom.Exits.Add("east", partyRoom);
             partyRoom.Exits.Add("west", startingRoom);
             partyRoom.Exits.Add("north", lockRoom);
             lockRoom.Exits.Add("west", partyRoom);
@@ -236,20 +237,22 @@ namespace CastleGrimtol.Project
             swordRoom.Items.Add(sword);
 
             CurrentRoom = startingRoom;
+            System.Console.WriteLine($"{CurrentRoom.Description}");
 
         }
 
         public void StartGame()
         {
-            System.Console.WriteLine($"{CurrentRoom.Description}");
             Setup();
 
             while (PlayingGame)
             {
-
-
                 GetUserInput();
-
+                if (CurrentRoom.Name == "deathroom")
+                {
+                    System.Console.WriteLine("You die!");
+                    PlayingGame = false;
+                }
 
             }
 
@@ -259,21 +262,29 @@ namespace CastleGrimtol.Project
         {
             Item foundItem = CurrentRoom.RemoveItem(itemName);
             //add found item to player inventory
-
-            CurrentPlayer.Inventory.Add(foundItem);
-
+            if (foundItem != null)
+            {
+                CurrentPlayer.Inventory.Add(foundItem);
+                System.Console.WriteLine("You have taken the " + itemName);
+                if (itemName == "sword")
+                {
+                    System.Console.WriteLine("You are now the king! YOU WIN!");
+                    PlayingGame = false;
+                }
+            }
+            else
+            {
+                System.Console.WriteLine("No such item");
+            }
         }
 
         public void UseItem(string itemName)
         {
-
-        }
-
-
-        public Game()
-        {
-            Setup();
-
+            if (itemName == "book" && CurrentRoom.Name == "lockroom")
+            {
+                System.Console.WriteLine("Somehow you can read the mysterious book and after a few moments a loud click and the door in front of you unlocks!");
+                hasKey = true;
+            }
         }
 
 
